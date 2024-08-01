@@ -1,0 +1,62 @@
+{% extends 'Home/base.html' %}
+
+{% block CONTENIDO %}
+<div class="container mt-5">
+    <h2 class="text-center">Usados</h2>
+    
+    <!-- Formulario de filtro -->
+    <form method="get" class="mb-4">
+        <div class="row g-2 justify-content-center">
+            <div class="col-8">
+                <input type="text" name="marca" value="{{ marca }}" class="form-control text-center" placeholder="Filtrar por marca">
+            </div>
+            <div class="col-8">
+                <input type="text" name="modelo" value="{{ modelo }}" class="form-control text-center" placeholder="Filtrar por modelo">
+            </div>
+            <div class="col-8">
+                <button type="submit" class="btn btn-success w-100">Buscar</button>
+            </div>
+        </div>
+    </form>
+    
+    <div class="row">
+        {% for vehiculo in vehiculos %}
+        <div class="col-md-4 mb-4">
+            <div class="card mb-3 shadow-sm">
+                {% if vehiculo.imagenes.exists %}
+                    <!-- Carrusel de imágenes -->
+                    <div id="carousel{{ vehiculo.id }}" class="carousel slide">
+                        <div class="carousel-inner">
+                            {% for imagen in vehiculo.imagenes.all %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <img src="{{ imagen.imagen.url }}" class="d-block w-100" style="max-height: 300px; object-fit: cover;" alt="{{ vehiculo.marca }} {{ vehiculo.modelo }}">
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <a class="carousel-control-prev" href="#carousel{{ vehiculo.id }}" role="button" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel{{ vehiculo.id }}" role="button" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </a>
+                    </div>
+                {% else %}
+                    <p>No hay imágenes disponibles.</p>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ vehiculo.marca }} {{ vehiculo.modelo }}</h5>
+                    <p class="card-text"><strong>Versión:</strong> {{ vehiculo.version }}</p>
+                    <p class="card-text"><strong>Año:</strong> {{ vehiculo.año }}</p>
+                    <p class="card-text"><strong>Kilometraje:</strong> {{ vehiculo.kilometraje }} km</p>
+                    <p class="card-text"><strong>Precio:</strong> ${{ vehiculo.precio }}</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">No hay vehículos nuevos.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock CONTENIDO %}

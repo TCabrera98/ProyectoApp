@@ -1,0 +1,22 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+{% block CONTENIDO %}
+<div class="container-fluid p-0 position-relative" style="height: 100vh; overflow: hidden;">
+    <!-- Imagen de fondo -->
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background-image: url('{% static 'Home/img/agencia3.jpeg' %}'); background-size: cover; background-position: center;">
+    </div>
+    <!-- Capa de opacidad -->
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.7);">
+    </div>
+    <!-- Contenido -->
+    <div class="position-relative d-flex justify-content-center align-items-center w-100 h-100">
+        <div class="text-center text-white">
+            <h2>Encontrá tu nuevo auto</h2>
+            <div class="mb-4">
+                <a href="{% url 'Home:nuevos' %}" class="btn btn-danger me-2">0km</a>
+                <a href="{% url 'Home:usados' %}" class="btn btn-danger">Usado</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock CONTENIDO %}

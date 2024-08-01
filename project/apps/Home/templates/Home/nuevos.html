@@ -1,0 +1,95 @@
+{% extends 'Home/base.html' %}
+
+{% block CONTENIDO %}
+<div class="container mt-5">
+    <h2 class="text-center">0km</h2>
+    
+    <!-- Formulario de filtro -->
+    <form method="get" class="mb-4 p-4 shadow-sm rounded bg-light">
+        <div class="row g-3 justify-content-center">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text" id="marca-addon"><i class="bi bi-car-front"></i></span>
+                        <select name="marca" class="form-control" aria-label="Marca" aria-describedby="marca-addon">
+                            <option value="">Seleccionar marca</option>
+                            {% for marca in marcas_disponibles %}
+                                <option value="{{ marca }}" {% if marca == request.GET.marca %}selected{% endif %}>{{ marca }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text" id="modelo-addon"><i class="bi bi-car-front-fill"></i></span>
+                        <input type="text" name="modelo" value="{{ modelo }}" class="form-control text-center" placeholder="Filtrar por modelo" aria-label="Modelo" aria-describedby="modelo-addon">
+                    </div>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success"><i class="bi bi-search"></i> Buscar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    
+    <div class="row">
+        {% for vehiculo in vehiculos %}
+        <div class="col-md-3 mb-3">
+            <div class="card mb-3 shadow-sm">
+                {% if vehiculo.imagenes.exists %}
+                    <!-- Carrusel de imágenes -->
+                    <div id="carousel{{ vehiculo.id }}" class="carousel slide">
+                        <div class="carousel-inner">
+                            {% for imagen in vehiculo.imagenes.all %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <img src="{{ imagen.imagen.url }}" class="d-block w-100" style="max-height: 300px; object-fit: cover;" alt="{{ vehiculo.marca }} {{ vehiculo.modelo }}" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="openModal('{{ imagen.imagen.url }}')">
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <a class="carousel-control-prev" href="#carousel{{ vehiculo.id }}" role="button" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel{{ vehiculo.id }}" role="button" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </a>
+                    </div>
+                {% else %}
+                    <p>No hay imágenes disponibles.</p>
+                {% endif %}
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ vehiculo.marca }} {{ vehiculo.modelo }}</h5>
+                    <p class="card-text"><strong>Versión:</strong> {{ vehiculo.version }}</p>
+                    <p class="card-text"><strong>Año:</strong> {{ vehiculo.año }}</p>
+                    <p class="card-text"><strong>Kilometraje:</strong> {{ vehiculo.kilometraje }} km</p>
+                    <p class="card-text"><strong>Precio:</strong> 0 {{ vehiculo.precio }}</p>
+                    <a class="btn btn-primary" href="#!">Consultar </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">No hay vehículos nuevos.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal para mostrar imágenes a tamaño completo -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img id="modalImage" src="" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function openModal(imageUrl) {
+    document.getElementById('modalImage').src = imageUrl;
+}
+</script>
+
+{% endblock CONTENIDO %}
+

@@ -1,0 +1,24 @@
+{% extends 'Home/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Lista de Vehículos</h2>
+    <div class="row">
+        {% for vehiculo in vehiculos %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                {% if vehiculo.imagen %}
+                <img class="card-img-top" src="{{ vehiculo.imagen.url }}" alt="{{ vehiculo.marca }} {{ vehiculo.modelo }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ vehiculo.marca }} {{ vehiculo.modelo }}</h5>
+                    <p class="card-text">Año: {{ vehiculo.año }}</p>
+                    <p class="card-text">Precio: ${{ vehiculo.precio }}</p>
+                    <a href="{% url 'vehiculo:detalle' vehiculo.id %}" class="btn btn-primary">Ver Detalles</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
