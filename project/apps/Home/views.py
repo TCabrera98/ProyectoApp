@@ -14,8 +14,8 @@ def nosotros(request):
 def nuevos(request):
     marca = request.GET.get("marca", "").strip()
     modelo = request.GET.get("modelo", "").strip()
-    marcas = Vehiculo.objects.filter(tipo="0km").values_list(
-        "marca", flat=True).distinct()
+    marcas = ["Toyota", "Volkswagen", "Ford",
+              "Chevrolet", "Fiat", "Renault", "Peugeot", "Honda"]
     if marca or modelo:
         vehiculos_nuevos = Vehiculo.objects.filter(tipo="0km")
         if marca:
@@ -38,8 +38,6 @@ def nuevos(request):
 def usados(request):
     marca = request.GET.get("marca", "").strip()
     modelo = request.GET.get("modelo", "").strip()
-    marcas = Vehiculo.objects.filter(tipo="Usado").values_list(
-        "marca", flat=True).distinct()
     if marca or modelo:
         vehiculos_usados = Vehiculo.objects.filter(tipo="Usado")
         if marca:
@@ -51,7 +49,6 @@ def usados(request):
         vehiculos_usados = Vehiculo.objects.none()
 
     contexto = {
-        "marcas": marcas,
         "vehiculos": vehiculos_usados,
         "marca": marca,
         "modelo": modelo,
