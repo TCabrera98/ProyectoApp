@@ -5,7 +5,7 @@
     <h2 class="text-center">0km</h2>
     
     <!-- Formulario de filtro -->
-    <form method="get" class="mb-4 p-4 shadow-sm rounded bg-light">
+    <form method="get" class="mb-4 p-4 shadow-sm rounded bg-light" hx-get="/nuevos/" hx-trigger="change from:form">
         <div class="row g-3 justify-content-center">
             <div class="col-md-8">
                 <div class="mb-3">
@@ -17,7 +17,7 @@
                                 <option value="{{ marca }}" {% if marca == request.GET.marca %}selected{% endif %}>{{ marca }}</option>
                             {% endfor %}
                         </select>
-                        <button type="button" class="btn btn-outline-danger ms-2" id="clear-marca" aria-label="Clear Marca"><i class="bi bi-x-circle"></i></button>
+                        <button type="button" class="btn btn-outline-danger ms-2" id="clear-marca" hx-get="/nuevos/" hx-target="#vehiculos-container" hx-include="form" hx-vals='{"marca":""}' aria-label="Clear Marca"><i class="bi bi-x-circle"></i></button>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -29,7 +29,7 @@
                                 <option value="{{ modelo }}" {% if modelo == request.GET.modelo %}selected{% endif %}>{{ modelo }}</option>
                             {% endfor %}
                         </select>
-                        <button type="button" class="btn btn-outline-danger ms-2" id="clear-modelo" aria-label="Clear Modelo"><i class="bi bi-x-circle"></i></button>
+                        <button type="button" class="btn btn-outline-danger ms-2" id="clear-modelo" hx-get="/nuevos/" hx-target="#vehiculos-container" hx-include="form" hx-vals='{"modelo":""}' aria-label="Clear Modelo"><i class="bi bi-x-circle"></i></button>
                     </div>
                 </div>
                 <div class="d-grid">
@@ -39,7 +39,7 @@
         </div>
     </form>
     
-    <div id="vehiculos-container" class="row">
+    <div id="vehiculos-container" class="row" hx-target="this" hx-swap="innerHTML">
         {% for vehiculo in vehiculos %}
         <div class="col-md-3 mb-3">
             <div class="card mb-3 shadow-sm">
@@ -49,7 +49,7 @@
                         <div class="carousel-inner">
                             {% for imagen in vehiculo.imagenes.all %}
                                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                    <img src="{{ imagen.imagen.url }}" class="d-block w-100" style="max-height: 300px; object-fit: cover;" alt="{{ vehiculo.marca }} {{ vehiculo.modelo }}" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="openModal('{{ imagen.imagen.url }}')">
+                                    <img src="{{ imagen.imagen.url }}" class="d-block w-100" style="height: 275px; object-fit: cover; object-position: center;" alt="{{ vehiculo.marca }} {{ vehiculo.modelo }}" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="openModal('{{ imagen.imagen.url }}')">
                                 </div>
                             {% endfor %}
                         </div>
@@ -96,79 +96,6 @@
     function openModal(imageUrl) {
         document.getElementById('modalImage').src = imageUrl;
     }
-    
-    // JavaScript para actualizar los modelos según la marca seleccionada
-    document.getElementById('marca-select').addEventListener('change', function() {
-        updateVehiculos();
-    });
-
-    document.getElementById('modelo-select').addEventListener('change', function() {
-        updateVehiculos();
-    });
-
-    function updateVehiculos() {
-        const marca = document.getElementById('marca-select').value;
-        const modelo = document.getElementById('modelo-select').value;
-
-        // Realizar solicitud al servidor para actualizar los vehículos mostrados
-        fetch(`/nuevos/?marca=${marca}&modelo=${modelo}`)
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById('vehiculos-container');
-                container.innerHTML = '';
-
-                data.vehiculos.forEach(vehiculo => {
-                    const card = `
-                        <div class="col-md-3 mb-3">
-                            <div class="card mb-3 shadow-sm">
-                                ${vehiculo.imagenes.length > 0 ? `
-                                    <div id="carousel${vehiculo.id}" class="carousel slide">
-                                        <div class="carousel-inner">
-                                            ${vehiculo.imagenes.map((imagen, index) => `
-                                                <div class="carousel-item ${index === 0 ? 'active' : ''}">
-                                                    <img src="${imagen.url}" class="d-block w-100" style="max-height: 300px; object-fit: cover;" alt="${vehiculo.marca} ${vehiculo.modelo}" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="openModal('${imagen.url}')">
-                                                </div>
-                                            `).join('')}
-                                        </div>
-                                        <a class="carousel-control-prev" href="#carousel${vehiculo.id}" role="button" data-bs-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Previous</span>
-                                        </a>
-                                        <a class="carousel-control-next" href="#carousel${vehiculo.id}" role="button" data-bs-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Next</span>
-                                        </a>
-                                    </div>
-                                ` : '<p>No hay imágenes disponibles.</p>'}
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">${vehiculo.marca} ${vehiculo.modelo}</h5>
-                                    <p class="card-text"><strong>Versión:</strong> ${vehiculo.version}</p>
-                                    <p class="card-text"><strong>Año:</strong> ${vehiculo.año}</p>
-                                    <p class="card-text"><strong>Kilometraje:</strong> ${vehiculo.kilometraje} km</p>
-                                    <p class="card-text"><strong>Precio:</strong> ${vehiculo.precio}</p>
-                                    <a class="btn btn-primary" href="#!">Consultar</a>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    container.insertAdjacentHTML('beforeend', card);
-                });
-
-                if (data.vehiculos.length === 0) {
-                    container.innerHTML = '<p class="text-center">No hay vehículos nuevos.</p>';
-                }
-            });
-    }
-
-    document.getElementById('clear-marca').addEventListener('click', function() {
-        document.getElementById('marca-select').value = '';
-        updateVehiculos();
-    });
-
-    document.getElementById('clear-modelo').addEventListener('click', function() {
-        document.getElementById('modelo-select').value = '';
-        updateVehiculos();
-    });
 </script>
 
 {% endblock %}
