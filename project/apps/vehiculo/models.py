@@ -27,7 +27,7 @@ class Vehiculo(models.Model):
 class VehiculoImagen(models.Model):
     """ Clase para almacenar las imagenes de los vehiculos """
     vehiculo = models.ForeignKey(
-        Vehiculo, related_name="imagenes", on_delete=models.SET_NULL, null=True)
+        Vehiculo, related_name="imagenes", on_delete=models.SET_NULL, null=True, blank=True)
     imagen = models.ImageField(upload_to="vehiculo/imagenes/")
 
     def __str__(self):
