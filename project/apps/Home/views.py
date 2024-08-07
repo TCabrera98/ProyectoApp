@@ -16,21 +16,25 @@ def nuevos(request):
     modelo = request.GET.get("modelo", "").strip()
     marcas = ["Toyota", "Volkswagen", "Ford",
               "Chevrolet", "Fiat", "Renault", "Peugeot", "Honda"]
-    if marca or modelo:
-        vehiculos_nuevos = Vehiculo.objects.filter(tipo="0km")
-        if marca:
-            vehiculos_nuevos = vehiculos_nuevos.filter(marca__icontains=marca)
-        if modelo:
-            vehiculos_nuevos = vehiculos_nuevos.filter(
-                modelo__icontains=modelo)
+
+    vehiculos_nuevos = Vehiculo.objects.filter(tipo="0km")
+
+    if marca:
+        vehiculos_nuevos = vehiculos_nuevos.filter(marca__icontains=marca)
+    if modelo:
+        vehiculos_nuevos = vehiculos_nuevos.filter(modelo__icontains=modelo)
+    if marca:
+        modelos = Vehiculo.objects.filter(marca__icontains=marca).values_list(
+            "modelo", flat=True).distinct()
     else:
-        vehiculos_nuevos = Vehiculo.objects.none()
+        modelos = Vehiculo.objects.none()
 
     contexto = {
         "marcas": marcas,
         "vehiculos": vehiculos_nuevos,
         "marca": marca,
         "modelo": modelo,
+        "modelos": modelos
     }
     return render(request, "Home/nuevos.html", contexto)
 
@@ -38,6 +42,7 @@ def nuevos(request):
 def usados(request):
     marca = request.GET.get("marca", "").strip()
     modelo = request.GET.get("modelo", "").strip()
+
     if marca or modelo:
         vehiculos_usados = Vehiculo.objects.filter(tipo="Usado")
         if marca:
