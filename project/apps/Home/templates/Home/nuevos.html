@@ -18,7 +18,6 @@
                                 <option value="{{ marca }}" {% if marca == request.GET.marca %}selected{% endif %}>{{ marca }}</option>
                             {% endfor %}
                         </select>
-                        <button type="button" class="btn btn-outline-danger ms-2" id="clear-marca" aria-label="Clear Marca"><i class="bi bi-x-circle"></i></button>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -30,13 +29,12 @@
                                 <option value="{{ modelo }}" {% if modelo == request.GET.modelo %}selected{% endif %}>{{ modelo }}</option>
                             {% endfor %}
                         </select>
-                        <button type="button" class="btn btn-outline-danger ms-2" id="clear-modelo" aria-label="Clear Modelo"><i class="bi bi-x-circle"></i></button>
                     </div>
                 </div>
             </div>
         </div>
     </form>
-
+    
     <!-- Contenedor de vehículos -->
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for vehiculo in vehiculos %}
