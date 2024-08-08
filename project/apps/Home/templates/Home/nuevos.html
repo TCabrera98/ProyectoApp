@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block CONTENIDO %}
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
     <h2 class="text-center">0km</h2>
 
     <!-- Formulario de filtro -->
@@ -12,7 +12,7 @@
                 <div class="mb-3">
                     <div class="input-group">
                         <span class="input-group-text" id="marca-addon"><i class="bi bi-car-front"></i></span>
-                        <select name="marca" id="marca-select" class="form-select text-center" aria-label="Marca" aria-describedby="marca-addon" onchange="this.form.submit()">
+                        <select name="marca" id="marca-select" class="form-select text-center rounded-pill" aria-label="Marca" aria-describedby="marca-addon" onchange="this.form.submit()">
                             <option value="" class="text-center">Seleccionar marca</option>
                             {% for marca in marcas %}
                                 <option value="{{ marca }}" {% if marca == request.GET.marca %}selected{% endif %}>{{ marca }}</option>
@@ -23,7 +23,7 @@
                 <div class="mb-3">
                     <div class="input-group">
                         <span class="input-group-text" id="modelo-addon"><i class="bi bi-car-front-fill"></i></span>
-                        <select name="modelo" id="modelo-select" class="form-select text-center" aria-label="Modelo" aria-describedby="modelo-addon" onchange="this.form.submit()">
+                        <select name="modelo" id="modelo-select" class="form-select text-center rounded-pill" aria-label="Modelo" aria-describedby="modelo-addon" onchange="this.form.submit()">
                             <option value="" class="text-center">Filtrar por modelo</option>
                             {% for modelo in modelos %}
                                 <option value="{{ modelo }}" {% if modelo == request.GET.modelo %}selected{% endif %}>{{ modelo }}</option>
@@ -35,8 +35,8 @@
         </div>
         <!-- Botón para limpiar filtros -->
         <div class="d-flex flex-column align-items-center">
-            <a href="{% url 'Home:nuevos' %}" class="btn btn-danger d-inline-block mb-3" style="width: 150px;">Limpiar filtros</a>
-            <a href="{% url 'Home:home' %}" class="btn btn-primary d-inline-block" style="width: 150px;">Menu principal</a>
+            <a href="{% url 'Home:nuevos' %}" class="btn btn-danger rounded-pill d-inline-block mb-3 shadow" style="width: 150px;">Limpiar filtros</a>
+            <a href="{% url 'Home:home' %}" class="btn btn-primary rounded-pill d-inline-block shadow" style="width: 150px;">Menu principal</a>
         </div>
     </form> 
     
@@ -44,14 +44,14 @@
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for vehiculo in vehiculos %}
             <div class="col">
-                <div class="card">
+                <div class="card shadow-sm rounded-lg border-0">
                     {% if vehiculo.imagenes.first %}
-                        <img src="{{ vehiculo.imagenes.first.imagen.url }}" class="card-img-top" alt="{{ vehiculo.modelo }}" style="object-fit: cover; width: 100%; height: 200px;">
+                        <img style="height: 320px;" src="{{ vehiculo.imagenes.first.imagen.url }}" class="card-img-top rounded-top" alt="{{ vehiculo.modelo }}" style="object-fit: cover; width: 100%; height: 200px;">
                     {% else %}
-                        <img src="{% static 'images/default_image.jpg' %}" class="card-img-top" alt="Imagen no disponible" style="object-fit: cover; width: 100%; height: 200px;">
+                        <img src="{% static 'images/default_image.jpg' %}" class="card-img-top rounded-top" alt="Imagen no disponible" style="object-fit: cover; width: 100%; height: 200px;">
                     {% endif %}
                     <div class="card-body">
-                        <h5 class="card-title">{{ vehiculo.marca }} {{ vehiculo.modelo }}</h5>
+                        <h5 class="card-title font-weight-bold">{{ vehiculo.marca }} {{ vehiculo.modelo }}</h5>
                         <p class="card-text">Versión: {{ vehiculo.version }}</p>
                         <p class="card-text">Año: {{ vehiculo.año }}</p>
                         <p class="card-text">Kilometraje: {{ vehiculo.kilometraje }} km</p>
