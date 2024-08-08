@@ -1,9 +1,10 @@
 {% extends 'Home/base.html' %}
+{% load static %}
 
 {% block CONTENIDO %}
 <div class="container mt-5">
     <h2 class="text-center">Usados</h2>
-    
+
     <!-- Formulario de filtro -->
     <form method="get" class="mb-4 p-4 shadow-sm rounded bg-light">
         <div class="row g-3 justify-content-center">
@@ -11,74 +12,54 @@
                 <div class="mb-3">
                     <div class="input-group">
                         <span class="input-group-text" id="marca-addon"><i class="bi bi-car-front"></i></span>
-                        <select name="marca" id="marca-select" class="form-select text-center" aria-label="Marca" aria-describedby="marca-addon">
+                        <select name="marca" id="marca-select" class="form-select text-center" aria-label="Marca" aria-describedby="marca-addon" onchange="this.form.submit()">
                             <option value="" class="text-center">Seleccionar marca</option>
                             {% for marca in marcas %}
                                 <option value="{{ marca }}" {% if marca == request.GET.marca %}selected{% endif %}>{{ marca }}</option>
                             {% endfor %}
                         </select>
-                        <button type="button" class="btn btn-outline-danger ms-2" id="clear-marca" aria-label="Clear Marca"><i class="bi bi-x-circle"></i></button>
                     </div>
                 </div>
                 <div class="mb-3">
                     <div class="input-group">
                         <span class="input-group-text" id="modelo-addon"><i class="bi bi-car-front-fill"></i></span>
-                        <select name="modelo" id="modelo-select" class="form-select text-center" aria-label="Modelo" aria-describedby="modelo-addon">
+                        <select name="modelo" id="modelo-select" class="form-select text-center" aria-label="Modelo" aria-describedby="modelo-addon" onchange="this.form.submit()">
                             <option value="" class="text-center">Filtrar por modelo</option>
                             {% for modelo in modelos %}
                                 <option value="{{ modelo }}" {% if modelo == request.GET.modelo %}selected{% endif %}>{{ modelo }}</option>
                             {% endfor %}
                         </select>
-                        <button type="button" class="btn btn-outline-danger ms-2" id="clear-modelo" aria-label="Clear Modelo"><i class="bi bi-x-circle"></i></button>
                     </div>
                 </div>
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-success"><i class="bi bi-search"></i> Buscar</button>
-                </div>
             </div>
+        </div>
+         <!-- Botón para limpiar filtros -->
+         <div class="d-flex flex-column align-items-center">
+            <a href="{% url 'Home:nuevos' %}" class="btn btn-danger d-inline-block mb-3" style="width: 150px;">Limpiar filtros</a>
+            <a href="{% url 'Home:home' %}" class="btn btn-primary d-inline-block" style="width: 150px;">Menu principal</a>
         </div>
     </form>
     
-    <div id="vehiculos-container" class="row">
+    <!-- Contenedor de vehículos -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for vehiculo in vehiculos %}
-        <div class="col-md-3 mb-3">
-            <div class="card mb-3 shadow-sm">
-                {% if vehiculo.imagenes.exists %}
-                    <!-- Carrusel de imágenes -->
-                    <div id="carousel{{ vehiculo.id }}" class="carousel slide">
-                        <div class="carousel-inner">
-                            {% for imagen in vehiculo.imagenes.all %}
-                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                    <img src="{{ imagen.imagen.url }}" class="d-block w-100" style="max-height: 300px; object-fit: cover;" alt="{{ vehiculo.marca }} {{ vehiculo.modelo }}" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="openModal('{{ imagen.imagen.url }}')">
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <a class="carousel-control-prev" href="#carousel{{ vehiculo.id }}" role="button" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carousel{{ vehiculo.id }}" role="button" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </a>
+            <div class="col">
+                <div class="card">
+                    {% if vehiculo.imagenes.first %}
+                        <img src="{{ vehiculo.imagenes.first.imagen.url }}" class="card-img-top" alt="{{ vehiculo.modelo }}" style="object-fit: cover; width: 100%; height: 200px;">
+                    {% else %}
+                        <img src="{% static 'images/default_image.jpg' %}" class="card-img-top" alt="Imagen no disponible" style="object-fit: cover; width: 100%; height: 200px;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ vehiculo.marca }} {{ vehiculo.modelo }}</h5>
+                        <p class="card-text">Versión: {{ vehiculo.version }}</p>
+                        <p class="card-text">Año: {{ vehiculo.año }}</p>
+                        <p class="card-text">Kilometraje: {{ vehiculo.kilometraje }} km</p>
+                        <p class="card-text">Precio: {{ vehiculo.precio }}</p>
                     </div>
-                {% else %}
-                    <p>No hay imágenes disponibles.</p>
-                {% endif %}
-                <div class="card-body text-center">
-                    <h5 class="card-title">{{ vehiculo.marca }} {{ vehiculo.modelo }}</h5>
-                    <p class="card-text"><strong>Versión:</strong> {{ vehiculo.version }}</p>
-                    <p class="card-text"><strong>Año:</strong> {{ vehiculo.año }}</p>
-                    <p class="card-text"><strong>Kilometraje:</strong> {{ vehiculo.kilometraje }} km</p>
-                    <p class="card-text"><strong>Precio:</strong> {{ vehiculo.precio }}</p>
-                    <a class="btn btn-primary" href="#!">Consultar</a>
                 </div>
             </div>
-        </div>
-        {% empty %}
-        <p class="text-center fw-bold">Filtrar para mostrar resultados.</p>
         {% endfor %}
     </div>
 </div>
-
 {% endblock %}

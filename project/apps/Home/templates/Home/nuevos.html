@@ -33,7 +33,12 @@
                 </div>
             </div>
         </div>
-    </form>
+        <!-- Botón para limpiar filtros -->
+        <div class="d-flex flex-column align-items-center">
+            <a href="{% url 'Home:nuevos' %}" class="btn btn-danger d-inline-block mb-3" style="width: 150px;">Limpiar filtros</a>
+            <a href="{% url 'Home:home' %}" class="btn btn-primary d-inline-block" style="width: 150px;">Menu principal</a>
+        </div>
+    </form> 
     
     <!-- Contenedor de vehículos -->
     <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -41,18 +46,20 @@
             <div class="col">
                 <div class="card">
                     {% if vehiculo.imagenes.first %}
-                        <img src="{{ vehiculo.imagenes.first.imagen.url }}" class="card-img-top" alt="{{ vehiculo.modelo }}">
+                        <img src="{{ vehiculo.imagenes.first.imagen.url }}" class="card-img-top" alt="{{ vehiculo.modelo }}" style="object-fit: cover; width: 100%; height: 200px;">
                     {% else %}
-                        <img src="{% static 'images/default_image.jpg' %}" class="card-img-top" alt="Imagen no disponible">
+                        <img src="{% static 'images/default_image.jpg' %}" class="card-img-top" alt="Imagen no disponible" style="object-fit: cover; width: 100%; height: 200px;">
                     {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ vehiculo.marca }} {{ vehiculo.modelo }}</h5>
                         <p class="card-text">Versión: {{ vehiculo.version }}</p>
-                        <p class="card-text">Año: {{ vehiculo.año }}</p> <p class="card-text">Kilometraje: {{ vehiculo.kilometraje }} km</p></p>
+                        <p class="card-text">Año: {{ vehiculo.año }}</p>
+                        <p class="card-text">Kilometraje: {{ vehiculo.kilometraje }} km</p>
                         <p class="card-text">Precio: {{ vehiculo.precio }}</p>
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
+</div>
 {% endblock %}
