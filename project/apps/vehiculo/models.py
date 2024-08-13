@@ -14,7 +14,7 @@ class Vehiculo(models.Model):
     año = models.IntegerField(null=True, blank=True)
     kilometraje = models.IntegerField(null=True, default=0)
     color = models.CharField(max_length=50, null=True, blank=True)
-    tipo = models.CharField(max_length=50, choices=tipo, default="0km")
+    condicion = models.CharField(max_length=50, choices=tipo, default="0km")
 
     def __str__(self):
         return f"{self.marca} {self.modelo} {self.año}"
