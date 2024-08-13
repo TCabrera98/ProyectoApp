@@ -16,7 +16,7 @@ def nuevos(request):
     modelo = request.GET.get("modelo", "").strip()
 
     marcas = Vehiculo.objects.values_list("marca", flat=True).distinct()
-    vehiculos_nuevos = Vehiculo.objects.filter(tipo="0km")
+    vehiculos_nuevos = Vehiculo.objects.filter(condicion="0km")
 
     if marca:
         vehiculos_nuevos = vehiculos_nuevos.filter(marca__icontains=marca)
@@ -44,7 +44,7 @@ def usados(request):
     modelo = request.GET.get("modelo", "")
 
     marcas = Vehiculo.objects.values_list("marca", flat=True).distinct()
-    vehiculos_usados = Vehiculo.objects.filter(tipo="Usado")
+    vehiculos_usados = Vehiculo.objects.filter(condicion="Usado")
 
     if marca:
         vehiculos_usados = vehiculos_usados.filter(marca__icontains=marca)
