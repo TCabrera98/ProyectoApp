@@ -9,7 +9,6 @@ admin.site.site_title = "Cabrera Automotores"
 class VehiculoImagenInline(admin.TabularInline):
     model = VehiculoImagen
     extra = 1
-    can_delete = True
 
 
 @admin.register(Vehiculo)
