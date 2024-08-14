@@ -6,9 +6,10 @@ admin.site.site_header = "Cabrera Automotores"
 admin.site.site_title = "Cabrera Automotores"
 
 
-class ImagenVehiculoInline(admin.TabularInline):
+class VehiculoImagenInline(admin.TabularInline):
     model = VehiculoImagen
     extra = 1
+    can_delete = True
 
 
 @admin.register(Vehiculo)
@@ -23,5 +24,5 @@ class VehiculoAdmin(admin.ModelAdmin):
     # Campos por los que se puede filtrar en el panel de administración
     list_filter = ('marca', 'modelo', 'año', 'color')
 
-    # Agregar imagenes
-    inlines = [ImagenVehiculoInline]
+    # Agregar imágenes al panel de administración
+    inlines = [VehiculoImagenInline]
