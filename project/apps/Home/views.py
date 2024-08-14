@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from vehiculo.models import Vehiculo  # Importa el modelo Vehiculo
 
 
@@ -65,3 +65,8 @@ def usados(request):
         "modelos": modelos
     }
     return render(request, "Home/usados.html", contexto)
+
+
+def vehiculo_imagenes(request, vehiculo_id):
+    vehiculo = get_object_or_404(Vehiculo, id=vehiculo_id)
+    return render(request, "Home/vehiculo_imagenes.html", {"vehiculo": vehiculo})

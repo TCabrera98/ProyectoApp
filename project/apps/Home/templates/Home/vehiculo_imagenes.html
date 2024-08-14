@@ -1,0 +1,21 @@
+<div id="carouselImages" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        {% for imagen in vehiculo.imagenes.all %}
+            <div class="carousel-item{% if forloop.first %} active{% endif %}">
+                <img src="{{ imagen.imagen.url }}" 
+                     class="d-block w-100" 
+                     alt="Imagen de {{ vehiculo.modelo }}"
+                     style="height: 300px; object-fit: cover;">
+            </div>
+        {% endfor %}
+    </div>
+    <!-- Controles del carrusel -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Siguiente</span>
+    </button>
+</div>

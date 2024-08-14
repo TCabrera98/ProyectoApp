@@ -40,9 +40,20 @@
             <div class="col">
                 <div class="card shadow-sm rounded border-0">
                     {% if vehiculo.imagenes.first %}
-                        <img src="{{ vehiculo.imagenes.first.imagen.url }}" class="card-img-top rounded-top" alt="{{ vehiculo.modelo }}" style="object-fit: cover; width: 100%; height: 200px;">
+                        <img src="{{ vehiculo.imagenes.first.imagen.url }}" 
+                             class="card-img-top rounded-top" 
+                             alt="{{ vehiculo.modelo }}" 
+                             style="object-fit: cover; width: 100%; height: 350px;"
+                             hx-get="{% url 'Home:vehiculo_imagenes' vehiculo.id %}"
+                             hx-target="#carouselContent"
+                             hx-trigger="click"
+                             data-bs-toggle="modal"
+                             data-bs-target="#imageModal">
                     {% else %}
-                        <img src="{% static 'images/default_image.jpg' %}" class="card-img-top rounded-top" alt="Imagen no disponible" style="object-fit: cover; width: 100%; height: 200px;">
+                        <img src="{% static 'images/default_image.jpg' %}" 
+                             class="card-img-top rounded-top" 
+                             alt="Imagen no disponible" 
+                             style="object-fit: cover; width: 100%; height: 200px;">
                     {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ vehiculo.marca }} {{ vehiculo.modelo }}</h5>
@@ -56,5 +67,32 @@
         {% endfor %}
     </div>
 </div>
-{% endblock %}
 
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Imágenes del Vehículo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="carouselImages" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner" id="carouselContent">
+                        <!-- Contenido del carrusel cargado aquí con HTMX -->
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Anterior</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Siguiente</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
