@@ -1,11 +1,11 @@
 <div id="carouselImages" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1000">
-    <div class="carousel-inner" style="height: 600px;">
+    <div class="carousel-inner" style="height: 400px; width: 100%; max-width: 600px; margin: 0 auto;">
         {% for imagen in vehiculo.imagenes.all %}
             <div class="carousel-item{% if forloop.first %} active{% endif %}">
                 <img src="{{ imagen.imagen.url }}" 
-                     class="d-block mx-auto"  
+                     class="d-block w-100 h-100 img-fluid"  
                      alt="Imagen de {{ vehiculo.modelo }}"
-                     style="max-height: 100%; max-width: 100%; object-fit: contain;"> 
+                     style="object-fit: cover;"> 
             </div>
         {% endfor %}
     </div>

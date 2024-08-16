@@ -29,7 +29,7 @@
         </div>
         <!-- Botones -->
         <div class="d-flex flex-column align-items-center">
-            <a href="{% url 'Home:usados' %}" class="btn btn-danger rounded-pill mb-3 shadow" style="width: 150px;">Limpiar filtros</a>
+            <a href="{% url 'Home:nuevos' %}" class="btn btn-danger rounded-pill mb-3 shadow" style="width: 150px;">Limpiar filtros</a>
             <a href="{% url 'Home:home' %}" class="btn btn-primary rounded-pill shadow" style="width: 150px;">Menú principal</a>
         </div>
     </form> 
@@ -40,20 +40,65 @@
             <div class="col">
                 <div class="card shadow-sm rounded border-0">
                     {% if vehiculo.imagenes.first %}
-                        <img src="{{ vehiculo.imagenes.first.imagen.url }}" class="card-img-top rounded-top" alt="{{ vehiculo.modelo }}" style="object-fit: cover; width: 100%; height: 200px;">
+                        <img src="{{ vehiculo.imagenes.first.imagen.url }}" 
+                             class="card-img-top rounded-top" 
+                             alt="{{ vehiculo.modelo }}" 
+                             style="object-fit: cover; width: 100%; height: 350px;"
+                             hx-get="{% url 'Home:vehiculo_imagenes' vehiculo.id %}"
+                             hx-target="#carouselContent"
+                             hx-trigger="click"
+                             data-bs-toggle="modal"
+                             data-bs-target="#imageModal">
                     {% else %}
-                        <img src="{% static 'images/default_image.jpg' %}" class="card-img-top rounded-top" alt="Imagen no disponible" style="object-fit: cover; width: 100%; height: 200px;">
+                        <img src="{% static 'images/default_image.jpg' %}" 
+                             class="card-img-top rounded-top" 
+                             alt="Imagen no disponible" 
+                             style="object-fit: cover; width: 100%; height: 200px;">
                     {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ vehiculo.marca }} {{ vehiculo.modelo }}</h5>
-                        <p class="card-text">Versión: {{ vehiculo.version }}</p>
-                        <p class="card-text">Año: {{ vehiculo.año }}</p>
-                        <p class="card-text">Kilometraje: {{ vehiculo.kilometraje }} km</p>
-                        <p class="card-text">Precio: {{ vehiculo.precio }}</p>
-                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title" style="font-size: 1.25rem; font-weight: bold;">{{ vehiculo.marca }}</h5>
+                        <p class="card-text" style="margin-bottom: 0.5rem;">Modelo: <span style="font-weight: bold;">{{ vehiculo.modelo }}</span></p>
+                        <p class="card-text" style="margin-bottom: 0.5rem;">Versión: <span style="font-weight: bold;">{{ vehiculo.version }}</span></p>
+                        <p class="card-text" style="margin-bottom: 0.5rem;">Año: <span style="font-weight: bold;">{{ vehiculo.año }}</span></p>
+                        <p class="card-text" style="margin-bottom: 0.5rem;">Kilometraje: <span style="font-weight: bold;">{{ vehiculo.kilometraje }} km</span></p>
+                        <a href="https://wa.me/?text=Estoy%20interesado%20en%20el%20vehículo%20{{ vehiculo.marca }}%20{{ vehiculo.modelo }}%20del%20año%20{{ vehiculo.año }}.%20¿Podrías%20darme%20más%20información%20sobre%20el%20precio?" 
+                            class="btn btn-success rounded-pill shadow" 
+                            style="font-size: 0.8rem; font-weight: bold; width: 50%;"
+                            target="_blank" 
+                            rel="noopener noreferrer">Consultar precio</a>
+                    </div>                    
                 </div>
             </div>
         {% endfor %}
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Imágenes del Vehículo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="carouselImages" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner" id="carouselContent">
+                        <!-- Contenido del carrusel cargado aquí con HTMX -->
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Anterior</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Siguiente</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
+
