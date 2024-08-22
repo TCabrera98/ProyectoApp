@@ -2,3 +2,6 @@
 **__pycache__/
 **/migrations/*.py
 !__init__.py
+media/
+static/
+db.sqlite3
