@@ -2,61 +2,136 @@
 {% load static %}
 
 {% block CONTENIDO %}
-<div class="container mt-5 mb-5">
+<div class="container mt-5 mb-5 pt-5">
     <h2 class="text-center mb-4">0km</h2>
 
     <!-- Formulario de filtro -->
-    <form method="get" class="p-4 shadow-sm rounded bg-light mx-auto" style="max-width: 500px;">
-        <div class="mb-3">
-            <div class="input-group">
-                <select name="marca" id="marca-select" class="form-select rounded-pill border-primary text-center" aria-label="Marca" onchange="this.form.submit()" style="cursor: pointer;">
-                    <option value="" class="text-center">Filtrar por marca</option>
+    <form method="get" class="p-4 shadow-sm rounded bg-light mx-auto" style="max-width: 500px; margin: auto;">
+        <!-- Selección de marca -->
+        <div class="mb-3 d-flex justify-content-center">
+            <div class="input-group" style="width: 100%; max-width: 300px;">
+                <select name="marca" id="marca-select" aria-label="Marca" onchange="this.form.submit()"
+                    style="
+                        width: 100%;
+                        background-color: #f8f9fa; /* Color de fondo claro */
+                        border: 1px solid #ced4da; /* Borde sutil */
+                        border-radius: 25px; /* Bordes redondeados */
+                        padding: 10px 20px; /* Espaciado interno */
+                        font-size: 1rem; /* Tamaño del texto */
+                        color: #495057; /* Color del texto */
+                        appearance: none; /* Elimina el estilo predeterminado del navegador */
+                        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); /* Sombra interna sutil */
+                        transition: border-color 0.3s ease, background-color 0.3s ease; /* Transiciones suaves */
+                        text-align: center; /* Centra el texto en el elemento select */
+                    "
+                    onfocus="this.style.borderColor='#80bfff'; this.style.backgroundColor='#fff';"
+                    onblur="this.style.borderColor='#ced4da'; this.style.backgroundColor='#f8f9fa';">
+                    <option value="" style="text-align: center;">Marca</option>
                     {% for marca in marcas %}
-                        <option value="{{ marca }}" {% if marca == request.GET.marca %}selected{% endif %}>{{ marca }}</option>
+                        <option value="{{ marca }}" {% if marca == request.GET.marca %}selected{% endif %} style="text-align: center;">
+                            {{ marca }}
+                        </option>
                     {% endfor %}
                 </select>
             </div>
         </div>
-        <div class="mb-3">
-            <div class="input-group">
-                <select name="modelo" id="modelo-select" class="form-select rounded-pill border-primary text-center" aria-label="Modelo" onchange="this.form.submit()" style="cursor: pointer;">
-                    <option value="" class="text-center">Filtrar por modelo</option>
+
+        <!-- Selección de modelo -->
+        <div class="mb-3 d-flex justify-content-center">
+            <div class="input-group" style="width: 100%; max-width: 300px;">
+                <select name="modelo" id="modelo-select" aria-label="Modelo" onchange="this.form.submit()"
+                    style="
+                        width: 100%;
+                        background-color: #f8f9fa; /* Color de fondo claro */
+                        border: 1px solid #ced4da; /* Borde sutil */
+                        border-radius: 25px; /* Bordes redondeados */
+                        padding: 10px 20px; /* Espaciado interno */
+                        font-size: 1rem; /* Tamaño del texto */
+                        color: #495057; /* Color del texto */
+                        appearance: none; /* Elimina el estilo predeterminado del navegador */
+                        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); /* Sombra interna sutil */
+                        transition: border-color 0.3s ease, background-color 0.3s ease; /* Transiciones suaves */
+                        text-align: center; /* Centra el texto en el elemento select */
+                    ">
+                    <option value="" style="text-align: center;">Modelo</option>
                     {% for modelo in modelos %}
-                        <option value="{{ modelo }}" {% if modelo == request.GET.modelo %}selected{% endif %}>{{ modelo }}</option>
+                        <option value="{{ modelo }}" {% if modelo == request.GET.modelo %}selected{% endif %} style="text-align: center;">
+                            {{ modelo }}
+                        </option>
                     {% endfor %}
                 </select>
             </div>
         </div>
+
         <!-- Botones -->
         <div class="d-flex flex-column align-items-center">
-            <a href="{% url 'Home:nuevos' %}" class="btn btn-danger rounded-pill mb-3 shadow" style="width: 150px;">Limpiar filtros</a>
-            <a href="{% url 'Home:usados' %}" class="btn btn-success rounded-pill mb-3 shadow" style="width: 150px">Ir a usados</a>
-            <a href="{% url 'Home:home' %}" class="btn btn-primary rounded-pill mb-3 shadow" style="width: 150px;">Menú principal</a>
+            <a href="{% url 'Home:usados' %}" class="btn btn-info mb-3" style="
+                width: 150px;
+                background-color: #99c2ff; /* Color primario */
+                border: 1px solid #99c2ff; /* Borde */
+                color: #fff; /* Texto blanco */
+                border-radius: 20px; /* Bordes redondeados */
+                font-size: 0.875rem; /* Tamaño del texto */
+                font-weight: 500; /* Peso del texto */
+                padding: 10px 20px; /* Espaciado interno */
+                transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave */
+            " onmouseover="this.style.backgroundColor='#80bfff'; this.style.transform='scale(1.05)'" onmouseout="this.style.backgroundColor='#99c2ff'; this.style.transform='scale(1)'">
+                Ir a usados
+            </a>
+            <a href="{% url 'Home:home' %}" class="btn btn-info mb-3" style="
+                width: 150px;
+                background-color: #28a745;
+                border: none;
+                color: #fff;
+                border-radius: 20px;
+                font-size: 0.875rem;
+                font-weight: 500;
+                padding: 10px 20px;
+                transition: background-color 0.3s ease, transform 0.3s ease;
+            " onmouseover="this.style.backgroundColor='#23933d'; this.style.transform='scale(1.05)'" onmouseout="this.style.backgroundColor='#23933d'; this.style.transform='scale(1)'">
+                Menú principal
+            </a>
+            <a href="{% url 'Home:nuevos' %}" class="btn btn-danger mb-3" style="
+                width: 150px;
+                background-color: #dc3545; /* Color peligro */
+                border: none;
+                color: #fff;
+                border-radius: 20px;
+                font-size: 0.875rem;
+                font-weight: 500;
+                padding: 10px 20px;
+                transition: background-color 0.3s ease, transform 0.3s ease;
+            " onmouseover="this.style.backgroundColor='#c82333'; this.style.transform='scale(1.05)'" onmouseout="this.style.backgroundColor='#dc3545'; this.style.transform='scale(1)'">
+                Limpiar filtros
+            </a>
         </div>
-    </form> 
-    
+    </form>
+
+    <!-- Espacio entre el formulario y las tarjetas de vehículos -->
+    <div class="my-5"></div>
+
     <!-- Contenedor de vehículos -->
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for vehiculo in vehiculos %}
             <div class="col">
-                <div class="card shadow-sm rounded border-0">
+                <div class="card shadow-sm rounded border-0" style="max-width: 24rem; margin: auto;">
                     {% if vehiculo.imagenes.first %}
                         <img src="{{ vehiculo.imagenes.first.imagen.url }}" 
-                             class="card-img-top rounded-top" 
-                             alt="{{ vehiculo.modelo }}" 
-                             style="object-fit: cover; width: 100%; height: 350px;"
-                             hx-get="{% url 'Home:vehiculo_imagenes' vehiculo.id %}"
-                             hx-target="#carouselContent"
-                             hx-trigger="click"
-                             data-bs-toggle="modal"
-                             data-bs-target="#imageModal">
+                            class="card-img-top rounded-top" 
+                            alt="{{ vehiculo.modelo }}" 
+                            style="object-fit: cover; width: 100%; height: 350px; shadow: 0px 0px 0px 1px #001;"
+                            hx-get="{% url 'Home:vehiculo_imagenes' vehiculo.id %}"
+                            hx-target="#carouselContent"
+                            hx-trigger="click"
+                            data-bs-toggle="modal"
+                            data-bs-target="#imageModal">
                     {% else %}
                         <img src="{% static 'images/default_image.jpg' %}" 
-                             class="card-img-top rounded-top" 
-                             alt="Imagen no disponible" 
-                             style="object-fit: cover; width: 100%; height: 200px;">
+                            class="card-img-top rounded-top" 
+                            alt="Imagen no disponible" 
+                            style="object-fit: cover; width: 100%; height: 200px;">
                     {% endif %}
-                    <div class="card-body text-center">
+                    <div class="card-body text-center p-4" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 3px;">
                         <h5 class="card-title" style="font-size: 1.25rem; font-weight: bold;">{{ vehiculo.marca }}</h5>
                         <p class="card-text" style="margin-bottom: 0.5rem;">Modelo: <span style="font-weight: bold;">{{ vehiculo.modelo }}</span></p>
                         <p class="card-text" style="margin-bottom: 0.5rem;">Versión: <span style="font-weight: bold;">{{ vehiculo.version }}</span></p>
@@ -64,41 +139,40 @@
                         <p class="card-text" style="margin-bottom: 0.5rem;">Kilometraje: <span style="font-weight: bold;">{{ vehiculo.kilometraje }} km</span></p>
                         <a href="https://wa.me/?text=Estoy%20interesado%20en%20el%20vehículo%20{{ vehiculo.marca }}%20{{ vehiculo.modelo }}%20del%20año%20{{ vehiculo.año }}.%20¿Podrías%20darme%20más%20información%20sobre%20el%20precio?" 
                             class="btn btn-success rounded-pill shadow" 
-                            style="font-size: 0.8rem; font-weight: bold; width: 50%;"
-                            target="_blank" 
-                            rel="noopener noreferrer">Consultar precio</a>
-                    </div>                    
+                            style="
+                            font-size: 0.7rem; /* Tamaño de fuente más pequeño */
+                            padding: 5px 8px; /* Espaciado interno reducido */
+                            width: auto; /* Ajustar el ancho automáticamente */
+                            max-width: 150px; /* Ancho máximo del botón */
+                            font-weight: bold;
+                            text-align: center; /* Centrar el texto */
+                            "target="_blank">
+                            Contactar por WhatsApp
+                        </a>
+                    </div>
                 </div>
             </div>
+        {% empty %}
+            <p class="text-center">No hay vehículos disponibles.</p>
         {% endfor %}
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal para imagenes -->
 <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-sm modal-dialog-centered" style="height: 90vh; width: 90vw;">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="imageModalLabel">Imágenes del Vehículo</h5>
+                <h5 class="modal-title" id="imageModalLabel">Galería de Imágenes</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <div id="carouselImages" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner" id="carouselContent">
-                        <!-- Contenido del carrusel cargado aquí con HTMX -->
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Anterior</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Siguiente</span>
-                    </button>
-                </div>
+            <div class="modal-body" id="carouselContent">
+                <!-- Aquí se cargarán las imágenes del vehículo seleccionado -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
 </div>
-
 {% endblock %}

@@ -1,22 +1,27 @@
 <!-- Navigation-->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" style="color: #FF0000;" href="#!">Cabrera Automotores</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <a class="navbar-brand" href="#!" style="color: #FF0000; font-weight: bold; font-size: 1.5rem;">Cabrera Automotores</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url "Home:home" %}">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url "Home:nosotros" %}">Nosotros</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'Home:home' %}" style="color: #333; font-weight: 500;">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'Home:nosotros' %}" style="color: #333; font-weight: 500;">Nosotros</a></li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="{% url "Home:home" %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{% url "Home:home" %}">Todos los vehiculos</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="{% url "Home:nuevos" %}">0km</a></li>
-                        <li><a class="dropdown-item" href="{% url "Home:usados" %}">Usados</a></li>
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #333; font-weight: 500;">
+                        Vehículos
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" 
+                        style="border-radius: 0.5rem; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+                        <li><a class="dropdown-item" href="{% url 'Home:home' %}" style="color: #333;">Todos los vehículos</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'Home:nuevos' %}" style="color: #333;">0km</a></li>
+                        <li><a class="dropdown-item" href="{% url 'Home:usados' %}" style="color: #333;">Usados</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
-    </div>  
+         
 </nav>
